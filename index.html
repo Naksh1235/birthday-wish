@@ -19,7 +19,7 @@
       background: #e6e6fa;
       padding: 4rem 3rem;
       border-radius: 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      box-shadow: 0 0 30px 10px #b5aed9, 0 4px 20px rgba(0,0,0,0.12);
       text-align: center;
       max-width: 800px;
       margin: 0rem;
@@ -37,6 +37,11 @@
       color: #ea4c89;
       font-size: 2rem;
       animation: beat 1s infinite;
+      transition: animation 0.3s;
+    }
+    .heart:hover {
+      animation: beat 0.4s infinite;
+      cursor: pointer;
     }
     @keyframes beat {
       0%, 100% { transform: scale(1); }
@@ -66,7 +71,7 @@
     .disclaimer small {
       font-size: 0.95em;
     }
-    .lock input[type="password"] {
+    .lock input[type="text"] {
       font-size: 1.2rem;
       padding: 0.5rem;
       border: 1px solid #b76ba3;
@@ -94,20 +99,43 @@
       font-size: 1rem;
       font-weight: bold;
     }
+    .lock-wait {
+      color: #b76ba3;
+      font-weight: bold;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+    img {
+      box-shadow: 0 0 20px #b5aed9, 0 0 0 8px #fff0f5;
+      border: 2px solid #b76ba3;
+      border-radius: 16px;
+      width: 500px;
+      margin-bottom: 1rem;
+    }
+    .signature {
+      font-family: 'Pacifico', cursive;
+      color: #b76ba3;
+      font-size: 1.4rem;
+      text-align: right;
+    }
   </style>
+  <!-- Optional: Google Font for signature -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- Lock Screen -->
   <div class="lock" id="lockScreen">
-    <h1>🔒 Enter the secret code to unlock your birthday wish!</h1>
-    <input type="password" id="unlockCode" placeholder="Enter code..." />
+    <h1>🔒 Answer this to unlock your birthday wish!</h1>
+    <div id="question">What is the nickname I call you?</div>
+    <input type="text" id="unlockAnswer" placeholder="Type your answer..." />
     <br>
-    <button onclick="unlockBirthday()">Unlock</button>
+    <button id="unlockBtn" onclick="unlockBirthday()">Unlock</button>
     <div class="lock-error" id="lockError"></div>
+    <div class="lock-wait" id="lockWait"></div>
   </div>
   <!-- Birthday Card, initially hidden -->
   <div class="card" id="birthdayCard" style="display:none;">
-    <img src="Yogini.jpg" alt="Yogini's Photo" style="width:500px; border-radius:16px; margin-bottom:1rem;">
+    <img src="Yogini.jpg" alt="Yogini's Photo">
     <h1>Happy Birthday, priyeee!</h1>
     <div class="heart">❤️</div>
     <p>
@@ -126,7 +154,7 @@ Happy birthday to the love of my life😍.
 
 Happy birthday to you🧡🎂🍰
     </p>
-    <p>— Yours, babycake 😍🤭</p>
+    <p class="signature">— Yours, babycake 😍🤭</p>
     <p class="disclaimer">
       <small>
         just a disclaimer: this site is under development, so don't fall for me this much earlier😂🤣
@@ -137,20 +165,49 @@ Happy birthday to you🧡🎂🍰
     Made with love just for you!
   </div>
   <script>
-    function unlockBirthday() {
-      const code = document.getElementById('unlockCode').value.trim();
-      const correctCode = "happybirthday"; // <-- Change this to whatever code you want!
+    // Lock logic
+    const correctAnswer = "happybirthday"; 
+    const questionText = "What is the nickname I call you?";
+    let attempts = 0;
+    const maxAttempts = 3;
+    let lockout = false;
+    let countdownInterval;
 
-      if (code.toLowerCase() === correctCode) {
+    document.getElementById('question').textContent = questionText;
+
+    function unlockBirthday() {
+      if (lockout) return;
+      const answer = document.getElementById('unlockAnswer').value.trim().toLowerCase();
+      if (answer === correctAnswer.toLowerCase()) {
         document.getElementById('lockScreen').style.display = "none";
         document.getElementById('birthdayCard').style.display = "block";
         document.querySelector('.footer').style.display = "block";
       } else {
-        document.getElementById('lockError').textContent = "Incorrect code! Try again 😊";
+        attempts++;
+        if (attempts >= maxAttempts) {
+          lockout = true;
+          document.getElementById('unlockBtn').disabled = true;
+          document.getElementById('lockError').textContent = "";
+          let countdown = 60;
+          document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+          countdownInterval = setInterval(() => {
+            countdown--;
+            document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+            if (countdown <= 0) {
+              clearInterval(countdownInterval);
+              attempts = 0;
+              lockout = false;
+              document.getElementById('unlockBtn').disabled = false;
+              document.getElementById('lockWait').textContent = "";
+              document.getElementById('lockError').textContent = "";
+            }
+          }, 1000);
+        } else {
+          document.getElementById('lockError').textContent = `Wrong answer! You have ${maxAttempts - attempts} attempt(s) left.`;
+        }
       }
     }
-    // Optional: allow Enter key to submit
-    document.getElementById('unlockCode').addEventListener('keydown', function(e) {
+    document.getElementById('unlockAnswer').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') unlockBirthday();
     });
   </script>
