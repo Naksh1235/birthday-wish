@@ -3,173 +3,161 @@
 <head>
   <meta charset="UTF-8">
   <title>Happy Birthday!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   <style>
+    /* --- Final "Romantic Diary" UI --- */
+
+    /* 1. Animated Background & Core Font */
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
     body {
-      background: linear-gradient(120deg, #f7cac9 0%, #b5aed9 100%);
-      color: #333;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      background: linear-gradient(120deg, #f7cac9, #b5aed9, #f7cac9);
+      background-size: 200% 200%;
+      animation: gradientAnimation 15s ease infinite;
     }
+
+    /* 2. Frosted Glass Cards */
     .card, .lock {
-      background: #e6e6fa;
-      padding: 4rem 3rem;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 2.5rem;
       border-radius: 24px;
-      box-shadow: 0 0 30px 10px #b5aed9, 0 4px 20px rgba(0,0,0,0.12);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
       text-align: center;
       max-width: 800px;
-      margin: 0rem;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      transition: opacity 0.4s;
+      width: calc(100% - 40px);
+      margin: 1rem;
     }
+    
     h1 {
       font-family: 'Algerian', 'Segoe UI', Arial, sans-serif;
       color: #b76ba3;
       margin-bottom: 1rem;
-      font-size: 2.8rem;
-      letter-spacing: 2px;
+      font-size: 2.5rem;
+      letter-spacing: 1.5px;
     }
+    
+    p {
+      text-align: center;
+      white-space: pre-line;
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    /* 3. Floating Label Input & Themed Button */
+    #question {
+        font-size: 1rem;
+        color: #6c6c70;
+    }
+
+    .input-container { position: relative; margin: 2rem 0; }
+    .input-container input {
+      font-size: 1.2rem; padding: 0.8rem 0.5rem; border: none;
+      border-bottom: 2px solid #b76ba3; background: transparent; outline: none; width: 100%; color: #333;
+      box-sizing: border-box;
+    }
+    .input-container label {
+      position: absolute; top: 0.8rem; left: 0.5rem; font-size: 1.2rem; color: #888;
+      pointer-events: none; transition: all 0.3s ease;
+    }
+    .input-container input:focus + label, .input-container input:not(:placeholder-shown) + label {
+      top: -1.2rem; left: 0; font-size: 1rem; color: #b76ba3;
+    }
+    
+    #unlockBtn {
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 1rem;
+      border-radius: 12px;
+      border: none;
+      background: #b76ba3; /* Rose color */
+      color: #fff;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.2s;
+    }
+
+    #unlockBtn:hover {
+      background: #ea4c89; /* Brighter pink */
+    }
+
+    #unlockBtn:disabled {
+      background-color: #d1d1d6;
+      cursor: not-allowed;
+    }
+
+    .lock-error, .lock-wait { 
+      color: #b76ba3; 
+      margin-top: 1rem; 
+      font-size: 0.9rem;
+      font-weight: 500; 
+      min-height: 1.2em; 
+    }
+
+    /* --- Other Styles --- */
     .heart {
       color: #ea4c89;
       font-size: 2rem;
       animation: beat 1s infinite;
-      transition: animation 0.3s;
-    }
-    .heart:hover {
-      animation: beat 0.4s infinite;
-      cursor: pointer;
     }
     @keyframes beat {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
     .footer {
+      display: none;
       margin-top: 2rem;
-      font-size: 1.3rem;
-      color: #858;
-    }
-    p {
-      text-align: left;
-      white-space: pre-line;
-      font-size: 1.15rem;
-      margin-bottom: 1.2rem;
-    }
-    .disclaimer {
-      text-align: right;
-      color: #888;
-      font-size: 0.97rem;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin-top: 1.25rem;
-      margin-bottom: 0;
-      font-style: italic;
-      opacity: 0.85;
-    }
-    .disclaimer small {
-      font-size: 0.95em;
-    }
-    .lock input[type="text"] {
-      font-size: 1.2rem;
-      padding: 0.5rem;
-      border: 1px solid #b76ba3;
-      border-radius: 10px;
-      outline: none;
-      margin-bottom: 1rem;
-      margin-top: 1rem;
-    }
-    .lock button {
-      font-size: 1.2rem;
-      padding: 0.5rem 1.5rem;
-      border-radius: 10px;
-      border: none;
-      background: #b76ba3;
+      font-size: 1rem;
       color: #fff;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .lock button:hover {
-      background: #ea4c89;
-    }
-    .lock-error {
-      color: #b76ba3;
-      margin-top: 1rem;
-      font-size: 1rem;
-      font-weight: bold;
-    }
-    .lock-wait {
-      color: #b76ba3;
-      font-weight: bold;
-      margin-top: 1rem;
-      font-size: 1rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     img {
-      box-shadow: 0 0 20px #b5aed9, 0 0 0 8px #fff0f5;
-      border: 2px solid #b76ba3;
       border-radius: 16px;
-      width: 500px;
+      width: 100%;
+      max-width: 500px;
       margin-bottom: 1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
     .signature {
-      font-family: 'Pacifico', cursive;
-      color: #b76ba3;
-      font-size: 1.4rem;
-      text-align: right;
+      font-family: 'Pacifico', cursive; color: #b76ba3; font-size: 1.4rem; text-align: right;
     }
-    /* Door animation styles */
-    .door-animation {
-      position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      width: 100vw; height: 100vh;
-      z-index: 999;
-      background: #e6e6fa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .door-left, .door-right {
-      width: 40vw;
-      height: 100vh;
-      background: #b5aed9;
-      position: absolute;
-      top: 0;
-      transition: transform 1.2s cubic-bezier(.77,0,.175,1);
-    }
-    .door-left {
-      left: 0;
-      border-right: 6px solid #fff;
-    }
-    .door-right {
-      right: 0;
-      border-left: 6px solid #fff;
-    }
-    .door-message {
-      position: absolute;
-      left: 50%; top: 45%;
-      transform: translate(-50%, -50%);
-      font-size: 2rem;
-      color: #b76ba3;
-      font-family: 'Pacifico', cursive;
-      z-index: 2;
-      transition: opacity 0.5s;
-    }
-    .door-open .door-left {
-      transform: translateX(-100vw);
-    }
-    .door-open .door-right {
-      transform: translateX(100vw);
-    }
-    .door-open .door-message {
-      opacity: 0;
+    .disclaimer {
+      text-align: center; color: #555; font-size: 0.8rem; font-style: italic; opacity: 0.85; margin-top: 2rem;
     }
     
-    /* CSS for the typing animation */
+    /* --- Door Animation --- */
+    .door-animation {
+      position: fixed; left: 0; top: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;
+      z-index: 999; background: #f2f2f7; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .door-left, .door-right {
+      width: 50vw; height: 100vh; background: #b5aed9; position: absolute; top: 0;
+      transition: transform 1.2s cubic-bezier(.77,0,.175,1);
+    }
+    .door-left { left: 0; }
+    .door-right { right: 0; }
+    .door-message { font-size: 2rem; color: #b76ba3; font-family: 'Pacifico', cursive; z-index: 2; transition: opacity 0.5s; }
+    .door-open .door-left { transform: translateX(-100%); }
+    .door-open .door-right { transform: translateX(100%); }
+    .door-open .door-message { opacity: 0; }
+
+    /* --- Typing Animation Styles --- */
     .typing-text {
       position: relative;
-      text-align: left; /* Keep your original left-align */
+      text-align: center; 
     }
 
     .typing-cursor {
@@ -186,19 +174,19 @@
       50% { opacity: 0; }
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="door-animation" id="doorAnimation" style="display:none;">
-    <div class="door-left"></div>
-    <div class="door-right"></div>
+    <div class="door-left"></div> <div class="door-right"></div>
     <div class="door-message">Welcome!</div>
   </div>
   <div class="lock" id="lockScreen">
-    <h1>🔒 Answer this to unlock your birthday wish!</h1>
+    <h1>A special message awaits...</h1>
     <div id="question">What is the nickname I call you?</div>
-    <input type="text" id="unlockAnswer" placeholder="Type your answer..." />
-    <br>
+    <div class="input-container">
+      <input type="text" id="unlockAnswer" placeholder=" " required />
+      <label for="unlockAnswer">Nickname</label>
+    </div>
     <button id="unlockBtn">Unlock</button>
     <div class="lock-error" id="lockError"></div>
     <div class="lock-wait" id="lockWait"></div>
@@ -207,20 +195,23 @@
     <img src="Yogini.jpg" alt="Yogini's Photo">
     <h1>Happy Birthday, priyeee!</h1>
     <div class="heart">❤️</div>
+    
+    <div id="feedback-counter" style="font-style: italic; color: #888; margin-bottom: 1rem;"></div>
+
     <p class="typing-text">
 Soooo😍... आली आम्हाला आठवण तुमच्या वाढदिवसाची🤭🤭... रागावलात होय?🥺🫠...रागावले असाल तर sweet sweet केक खाऊन sweet sweet व्हा 😁✨...आणि पुढे वाचा..
-
+    </p>
+    <p class="typing-text">
 आगे पढने के लिये कृपया #️⃣ दबाये😝
-
+    </p>
+    <p class="typing-text">
 Happpppyy birthday to you the biggest constant of my life dude🔥🥳😍✨🤭... I know.. I know..सकाळपासून खूप त्रास दिला आज🙈🤪...पण वो अपना इश्टाइल हैं ना?😁...birthday के दिन तंग नहीं किया किया तो birthday की memories कैसे होंगी भला?🤧..
 And you're special one for me🤭😍... मग तुझा birthday तर मस्त च असायला हवा😍...आणि कसा विसरणार ना मीI love my teeth so much😛😁... so lemme wish you again😃
-
-Happy birthday to you🤭✨.
-
-Happy birthday to you🔥🥳
-
-Happy birthday to the love of my life😍.
-
+    </p>
+    <p class="typing-text">
+Happy birthday to you🤭✨.<br>
+Happy birthday to you🔥🥳<br>
+Happy birthday to the love of my life😍.<br>
 Happy birthday to you🧡🎂🍰
     </p>
     <p class="signature">— Yours, babycake 😍🤭</p>
@@ -234,18 +225,24 @@ Happy birthday to you🧡🎂🍰
     Made with love just for you!
   </div>
   <script>
-    // --- YOUR ORIGINAL LOCK LOGIC ---
-    const correctAnswer = "babycake"; 
+    // --- CONFIGURATION ---
+    const correctAnswer = "happybirthday";
     const questionText = "What is the nickname I call you?";
-    let attempts = 0;
     const maxAttempts = 3;
+    const typingSpeed = 80; // Slower and more readable speed
+
+    // --- LOCK SCREEN LOGIC ---
+    let attempts = 0;
     let lockout = false;
     let countdownInterval;
-    const typingSpeed = 50; // Milliseconds per character. Lower is faster.
 
-    document.getElementById('question').textContent = questionText;
+    const questionEl = document.getElementById('question');
     const unlockBtn = document.getElementById('unlockBtn');
     const unlockAnswerInput = document.getElementById('unlockAnswer');
+    
+    if (questionEl) {
+      questionEl.textContent = questionText;
+    }
 
     function unlockBirthday() {
       if (lockout) return;
@@ -254,26 +251,32 @@ Happy birthday to you🧡🎂🍰
         showDoorAnimation();
       } else {
         attempts++;
+        const lockError = document.getElementById('lockError');
         if (attempts >= maxAttempts) {
           lockout = true;
           unlockBtn.disabled = true;
-          document.getElementById('lockError').textContent = "";
+          lockError.textContent = "";
           let countdown = 60;
-          document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+          const lockWait = document.getElementById('lockWait');
+          lockWait.textContent = `Too many attempts. Try again in ${countdown} seconds.`;
           countdownInterval = setInterval(() => {
             countdown--;
-            document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+            lockWait.textContent = `Too many attempts. Try again in ${countdown} seconds.`;
             if (countdown <= 0) {
               clearInterval(countdownInterval);
               attempts = 0;
               lockout = false;
               unlockBtn.disabled = false;
-              document.getElementById('lockWait').textContent = "";
-              document.getElementById('lockError').textContent = "";
+              lockWait.textContent = "";
             }
           }, 1000);
         } else {
-          document.getElementById('lockError').textContent = `Wrong answer! You have ${maxAttempts - attempts} attempt(s) left.`;
+          lockError.textContent = `Incorrect. You have ${maxAttempts - attempts} attempt(s) left.`;
+          document.querySelector('.lock').animate([
+            { transform: 'translateX(0px)' }, { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' }, { transform: 'translateX(-10px)' },
+            { transform: 'translateX(10px)' }, { transform: 'translateX(0px)' }
+          ], { duration: 500, easing: 'ease-in-out' });
         }
       }
     }
@@ -288,36 +291,55 @@ Happy birthday to you🧡🎂🍰
       setTimeout(() => {
         doorAnimation.style.display = "none";
         document.getElementById('birthdayCard').style.display = "block";
-        document.querySelector('.footer').style.display = "block";
-        // Start the new typing effect!
+        const footer = document.querySelector('.footer');
+        if(footer) footer.style.display = "block";
+        
         startTypingEffect();
-      }, 1600);
+
+      }, 1200);
     }
 
-    unlockBtn.addEventListener('click', unlockBirthday);
-    unlockAnswerInput.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') unlockBirthday();
-    });
-
-    // --- NEW TYPING EFFECT LOGIC ---
+    // --- TYPING EFFECT LOGIC WITH FEEDBACK COUNTER ---
     function startTypingEffect() {
       const elementsToType = document.querySelectorAll('.typing-text');
       let currentElementIndex = 0;
 
-      // Hide elements that will be animated
+      const feedbackCounter = document.getElementById('feedback-counter');
+      let totalChars = 0;
+      let typedChars = 0;
+      elementsToType.forEach(el => {
+        totalChars += el.innerText.length;
+      });
+
       const otherElements = document.querySelectorAll('.card .signature, .card .disclaimer, .typing-text');
       otherElements.forEach(el => el.style.opacity = '0');
       
+      const imgEl = document.querySelector('.card img');
+      const h1El = document.querySelector('.card h1');
+      const heartEl = document.querySelector('.card .heart');
+
+      imgEl.style.transition = 'opacity 1s';
+      h1El.style.transition = 'opacity 1s 0.5s';
+      heartEl.style.transition = 'opacity 1s 1s';
+      
+      setTimeout(() => {
+          imgEl.style.opacity = '1';
+          h1El.style.opacity = '1';
+          heartEl.style.opacity = '1';
+          setTimeout(typeElement, 1500);
+      }, 500);
+
       function typeElement() {
         if (currentElementIndex >= elementsToType.length) {
-          // All paragraphs are typed, now fade in the signature and disclaimer
-          const signatureEl = document.querySelector('.card .signature');
-          const disclaimerEl = document.querySelector('.card .disclaimer');
-          signatureEl.style.transition = 'opacity 1s';
-          disclaimerEl.style.transition = 'opacity 1s 0.5s';
-          signatureEl.style.opacity = '1';
-          disclaimerEl.style.opacity = '1';
-          return;
+            const signatureEl = document.querySelector('.card .signature');
+            const disclaimerEl = document.querySelector('.card .disclaimer');
+            signatureEl.style.transition = 'opacity 1s';
+            disclaimerEl.style.transition = 'opacity 1s 0.5s';
+            signatureEl.style.opacity = '1';
+            disclaimerEl.style.opacity = '1';
+            
+            if(feedbackCounter) feedbackCounter.style.display = 'none';
+            return;
         }
 
         const element = elementsToType[currentElementIndex];
@@ -332,8 +354,14 @@ Happy birthday to you🧡🎂🍰
         let charIndex = 0;
         const typingInterval = setInterval(() => {
           if (charIndex < originalHTML.length) {
-            // This logic handles HTML tags (like <br>) within the text
             let nextCharSegment = originalHTML.substring(charIndex);
+            
+            if (!nextCharSegment.startsWith('<')) {
+                typedChars++;
+                let percentage = Math.round((typedChars / totalChars) * 100);
+                if(feedbackCounter) feedbackCounter.textContent = `Revealing message... ${percentage}%`;
+            }
+            
             if (nextCharSegment.startsWith('<')) {
               const tagEndIndex = nextCharSegment.indexOf('>') + 1;
               charIndex += tagEndIndex;
@@ -345,13 +373,18 @@ Happy birthday to you🧡🎂🍰
             clearInterval(typingInterval);
             element.querySelector('.typing-cursor').remove();
             currentElementIndex++;
-            setTimeout(typeElement, 500); // Wait before starting next paragraph
+            setTimeout(typeElement, 500);
           }
         }, typingSpeed);
       }
-      // Start the typing process
       typeElement();
     }
+
+    unlockBtn.addEventListener('click', unlockBirthday);
+    unlockAnswerInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') unlockBirthday();
+    });
   </script>
 </body>
-</html>
+  </html>
+    
