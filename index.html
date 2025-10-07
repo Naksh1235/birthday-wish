@@ -5,9 +5,14 @@
   <title>Happy Birthday!</title>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   <style>
-    /* --- iOS UI Redesign --- */
+    /* --- Final "Romantic Diary" UI --- */
 
-    /* 1. Core Look & Font */
+    /* 1. Animated Background & Core Font */
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       display: flex;
@@ -16,15 +21,19 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
-      background-color: #f2f2f7; /* Standard iOS light mode background */
+      background: linear-gradient(120deg, #f7cac9, #b5aed9, #f7cac9);
+      background-size: 200% 200%;
+      animation: gradientAnimation 15s ease infinite;
     }
 
-    /* 2. iOS-Style Cards */
+    /* 2. Frosted Glass Cards */
     .card, .lock {
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
       padding: 2.5rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
       text-align: center;
       max-width: 500px;
       width: calc(100% - 40px);
@@ -32,51 +41,40 @@
     }
     
     h1 {
-      font-family: inherit;
-      color: #1d1d1f; /* iOS primary text color */
-      margin-bottom: 0.5rem;
-      font-size: 2rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      font-family: 'Algerian', 'Segoe UI', Arial, sans-serif;
+      color: #b76ba3;
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      letter-spacing: 1.5px;
     }
-
-    .lock h1 {
-        margin-bottom: 1.5rem;
-    }
-
+    
     p {
-      text-align: center; /* Centered text is common in iOS modals */
+      text-align: center;
       white-space: pre-line;
-      font-size: 1rem;
+      font-size: 1.1rem;
       margin-bottom: 1.5rem;
       line-height: 1.6;
       color: #333;
     }
     
-    /* 3. Authentic iOS Controls */
+    /* 3. Floating Label Input & Themed Button */
     #question {
         font-size: 1rem;
         color: #6c6c70;
-        margin-bottom: 1.5rem;
-    }
-    
-    #unlockAnswer {
-      font-size: 1.1rem;
-      padding: 1rem;
-      border: 1px solid #e5e5ea;
-      background-color: #f2f2f7;
-      border-radius: 12px;
-      outline: none;
-      width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 1rem;
-      text-align: center;
-      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    #unlockAnswer:focus {
-        border-color: #007aff;
-        box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+    .input-container { position: relative; margin: 2rem 0; }
+    .input-container input {
+      font-size: 1.2rem; padding: 0.8rem 0.5rem; border: none;
+      border-bottom: 2px solid #b76ba3; background: transparent; outline: none; width: 100%; color: #333;
+      box-sizing: border-box;
+    }
+    .input-container label {
+      position: absolute; top: 0.8rem; left: 0.5rem; font-size: 1.2rem; color: #888;
+      pointer-events: none; transition: all 0.3s ease;
+    }
+    .input-container input:focus + label, .input-container input:not(:placeholder-shown) + label {
+      top: -1.2rem; left: 0; font-size: 1rem; color: #b76ba3;
     }
     
     #unlockBtn {
@@ -85,7 +83,7 @@
       padding: 1rem;
       border-radius: 12px;
       border: none;
-      background: #007aff; /* Standard iOS blue */
+      background: #b76ba3; /* Rose color */
       color: #fff;
       cursor: pointer;
       width: 100%;
@@ -93,7 +91,7 @@
     }
 
     #unlockBtn:hover {
-      background: #0056b3;
+      background: #ea4c89; /* Brighter pink */
     }
 
     #unlockBtn:disabled {
@@ -102,7 +100,7 @@
     }
 
     .lock-error, .lock-wait { 
-      color: #ff3b30; /* iOS error red */
+      color: #b76ba3; 
       margin-top: 1rem; 
       font-size: 0.9rem;
       font-weight: 500; 
@@ -111,7 +109,7 @@
 
     /* --- Other Styles --- */
     .heart {
-      color: #ff2d55; /* iOS system pink */
+      color: #ea4c89;
       font-size: 2rem;
       animation: beat 1s infinite;
     }
@@ -123,18 +121,20 @@
       display: none;
       margin-top: 2rem;
       font-size: 1rem;
-      color: #8a8a8e;
+      color: #fff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
     }
     img {
       border-radius: 16px;
       width: 100%;
       margin-bottom: 1rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
     .signature {
-      font-family: 'Pacifico', cursive; color: #5856d6; /* iOS indigo */ font-size: 1.4rem; text-align: right;
+      font-family: 'Pacifico', cursive; color: #b76ba3; font-size: 1.4rem; text-align: right;
     }
     .disclaimer {
-      text-align: center; color: #8a8a8e; font-size: 0.8rem; font-style: italic; opacity: 0.85; margin-top: 2rem;
+      text-align: center; color: #555; font-size: 0.8rem; font-style: italic; opacity: 0.85; margin-top: 2rem;
     }
     
     /* --- Door Animation --- */
@@ -143,12 +143,12 @@
       z-index: 999; background: #f2f2f7; display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
     .door-left, .door-right {
-      width: 50vw; height: 100vh; background: #d1d1d6; position: absolute; top: 0;
+      width: 50vw; height: 100vh; background: #b5aed9; position: absolute; top: 0;
       transition: transform 1.2s cubic-bezier(.77,0,.175,1);
     }
     .door-left { left: 0; }
     .door-right { right: 0; }
-    .door-message { font-size: 2rem; color: #007aff; font-family: 'Pacifico', cursive; z-index: 2; transition: opacity 0.5s; }
+    .door-message { font-size: 2rem; color: #b76ba3; font-family: 'Pacifico', cursive; z-index: 2; transition: opacity 0.5s; }
     .door-open .door-left { transform: translateX(-100%); }
     .door-open .door-right { transform: translateX(100%); }
     .door-open .door-message { opacity: 0; }
@@ -160,10 +160,13 @@
     <div class="door-message">Welcome!</div>
   </div>
   <div class="lock" id="lockScreen">
-    <h1>Enter Passcode</h1>
+    <h1>A special message awaits...</h1>
     <div id="question">What is the nickname I call you?</div>
-    <input type="text" id="unlockAnswer" placeholder="Nickname" />
-    <button id="unlockBtn">Continue</button>
+    <div class="input-container">
+      <input type="text" id="unlockAnswer" placeholder=" " required />
+      <label for="unlockAnswer">Nickname</label>
+    </div>
+    <button id="unlockBtn">Unlock</button>
     <div class="lock-error" id="lockError"></div>
     <div class="lock-wait" id="lockWait"></div>
   </div>
@@ -274,5 +277,5 @@ Happy birthday to you🧡🎂🍰
     });
   </script>
 </body>
-      </html>
-      
+  </html>
+  
