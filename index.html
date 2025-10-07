@@ -15,8 +15,8 @@
       min-height: 100vh;
       margin: 0;
     }
-    .card {
-      background: #e6e6fa; /* Lavender */
+    .card, .lock {
+      background: #e6e6fa;
       padding: 4rem 3rem;
       border-radius: 24px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.12);
@@ -24,10 +24,11 @@
       max-width: 800px;
       margin: 0rem;
       font-family: 'Segoe UI', Arial, sans-serif;
+      transition: opacity 0.4s;
     }
     h1 {
       font-family: 'Algerian', 'Segoe UI', Arial, sans-serif;
-      color: #b76ba3; /* Soft romantic purple */
+      color: #b76ba3;
       margin-bottom: 1rem;
       font-size: 2.8rem;
       letter-spacing: 2px;
@@ -65,10 +66,47 @@
     .disclaimer small {
       font-size: 0.95em;
     }
+    .lock input[type="password"] {
+      font-size: 1.2rem;
+      padding: 0.5rem;
+      border: 1px solid #b76ba3;
+      border-radius: 10px;
+      outline: none;
+      margin-bottom: 1rem;
+      margin-top: 1rem;
+    }
+    .lock button {
+      font-size: 1.2rem;
+      padding: 0.5rem 1.5rem;
+      border-radius: 10px;
+      border: none;
+      background: #b76ba3;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .lock button:hover {
+      background: #ea4c89;
+    }
+    .lock-error {
+      color: #b76ba3;
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
+  <!-- Lock Screen -->
+  <div class="lock" id="lockScreen">
+    <h1>🔒 Enter the secret code to unlock your birthday wish!</h1>
+    <input type="password" id="unlockCode" placeholder="Enter code..." />
+    <br>
+    <button onclick="unlockBirthday()">Unlock</button>
+    <div class="lock-error" id="lockError"></div>
+  </div>
+  <!-- Birthday Card, initially hidden -->
+  <div class="card" id="birthdayCard" style="display:none;">
     <img src="Yogini.jpg" alt="Yogini's Photo" style="width:500px; border-radius:16px; margin-bottom:1rem;">
     <h1>Happy Birthday, priyeee!</h1>
     <div class="heart">❤️</div>
@@ -98,5 +136,23 @@ Happy birthday to you🧡🎂🍰
   <div class="footer">
     Made with love just for you!
   </div>
+  <script>
+    function unlockBirthday() {
+      const code = document.getElementById('unlockCode').value.trim();
+      const correctCode = "happybirthday"; // <-- Change this to whatever code you want!
+
+      if (code.toLowerCase() === correctCode) {
+        document.getElementById('lockScreen').style.display = "none";
+        document.getElementById('birthdayCard').style.display = "block";
+        document.querySelector('.footer').style.display = "block";
+      } else {
+        document.getElementById('lockError').textContent = "Incorrect code! Try again 😊";
+      }
+    }
+    // Optional: allow Enter key to submit
+    document.getElementById('unlockCode').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') unlockBirthday();
+    });
+  </script>
 </body>
 </html>
