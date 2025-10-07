@@ -3,208 +3,188 @@
 <head>
   <meta charset="UTF-8">
   <title>Happy Birthday!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   <style>
+    /* --- iOS UI Redesign --- */
+
+    /* 1. Core Look & Font */
     body {
-      background: linear-gradient(120deg, #f7cac9 0%, #b5aed9 100%);
-      color: #333;
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      background-color: #f2f2f7; /* Standard iOS light mode background */
     }
+
+    /* 2. iOS-Style Cards */
     .card, .lock {
-      background: #e6e6fa;
-      padding: 4rem 3rem;
-      border-radius: 24px;
-      box-shadow: 0 0 30px 10px #b5aed9, 0 4px 20px rgba(0,0,0,0.12);
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
       text-align: center;
-      max-width: 800px;
-      margin: 0rem;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      transition: opacity 0.4s;
+      max-width: 500px;
+      width: calc(100% - 40px);
+      margin: 1rem;
     }
+    
     h1 {
-      font-family: 'Algerian', 'Segoe UI', Arial, sans-serif;
-      color: #b76ba3;
-      margin-bottom: 1rem;
-      font-size: 2.8rem;
-      letter-spacing: 2px;
+      font-family: inherit;
+      color: #1d1d1f; /* iOS primary text color */
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
+
+    .lock h1 {
+        margin-bottom: 1.5rem;
+    }
+
+    p {
+      text-align: center; /* Centered text is common in iOS modals */
+      white-space: pre-line;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    /* 3. Authentic iOS Controls */
+    #question {
+        font-size: 1rem;
+        color: #6c6c70;
+        margin-bottom: 1.5rem;
+    }
+    
+    #unlockAnswer {
+      font-size: 1.1rem;
+      padding: 1rem;
+      border: 1px solid #e5e5ea;
+      background-color: #f2f2f7;
+      border-radius: 12px;
+      outline: none;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    #unlockAnswer:focus {
+        border-color: #007aff;
+        box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+    }
+    
+    #unlockBtn {
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 1rem;
+      border-radius: 12px;
+      border: none;
+      background: #007aff; /* Standard iOS blue */
+      color: #fff;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.2s;
+    }
+
+    #unlockBtn:hover {
+      background: #0056b3;
+    }
+
+    #unlockBtn:disabled {
+      background-color: #d1d1d6;
+      cursor: not-allowed;
+    }
+
+    .lock-error, .lock-wait { 
+      color: #ff3b30; /* iOS error red */
+      margin-top: 1rem; 
+      font-size: 0.9rem;
+      font-weight: 500; 
+      min-height: 1.2em; 
+    }
+
+    /* --- Other Styles --- */
     .heart {
-      color: #ea4c89;
+      color: #ff2d55; /* iOS system pink */
       font-size: 2rem;
       animation: beat 1s infinite;
-      transition: animation 0.3s;
-    }
-    .heart:hover {
-      animation: beat 0.4s infinite;
-      cursor: pointer;
     }
     @keyframes beat {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
     .footer {
+      display: none;
       margin-top: 2rem;
-      font-size: 1.3rem;
-      color: #858;
-    }
-    p {
-      text-align: left;
-      white-space: pre-line;
-      font-size: 1.15rem;
-      margin-bottom: 1.2rem;
-    }
-    .disclaimer {
-      text-align: right;
-      color: #888;
-      font-size: 0.97rem;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin-top: 1.25rem;
-      margin-bottom: 0;
-      font-style: italic;
-      opacity: 0.85;
-    }
-    .disclaimer small {
-      font-size: 0.95em;
-    }
-    .lock input[type="text"] {
-      font-size: 1.2rem;
-      padding: 0.5rem;
-      border: 1px solid #b76ba3;
-      border-radius: 10px;
-      outline: none;
-      margin-bottom: 1rem;
-      margin-top: 1rem;
-    }
-    .lock button {
-      font-size: 1.2rem;
-      padding: 0.5rem 1.5rem;
-      border-radius: 10px;
-      border: none;
-      background: #b76ba3;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .lock button:hover {
-      background: #ea4c89;
-    }
-    .lock-error {
-      color: #b76ba3;
-      margin-top: 1rem;
       font-size: 1rem;
-      font-weight: bold;
-    }
-    .lock-wait {
-      color: #b76ba3;
-      font-weight: bold;
-      margin-top: 1rem;
-      font-size: 1rem;
+      color: #8a8a8e;
     }
     img {
-      box-shadow: 0 0 20px #b5aed9, 0 0 0 8px #fff0f5;
-      border: 2px solid #b76ba3;
       border-radius: 16px;
-      width: 500px;
+      width: 100%;
       margin-bottom: 1rem;
     }
     .signature {
-      font-family: 'Pacifico', cursive;
-      color: #b76ba3;
-      font-size: 1.4rem;
-      text-align: right;
+      font-family: 'Pacifico', cursive; color: #5856d6; /* iOS indigo */ font-size: 1.4rem; text-align: right;
     }
-    /* Door animation styles */
+    .disclaimer {
+      text-align: center; color: #8a8a8e; font-size: 0.8rem; font-style: italic; opacity: 0.85; margin-top: 2rem;
+    }
+    
+    /* --- Door Animation --- */
     .door-animation {
-      position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      width: 100vw; height: 100vh;
-      z-index: 999;
-      background: #e6e6fa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      position: fixed; left: 0; top: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;
+      z-index: 999; background: #f2f2f7; display: flex; align-items: center; justify-content: center; overflow: hidden;
     }
     .door-left, .door-right {
-      width: 40vw;
-      height: 100vh;
-      background: #b5aed9;
-      position: absolute;
-      top: 0;
+      width: 50vw; height: 100vh; background: #d1d1d6; position: absolute; top: 0;
       transition: transform 1.2s cubic-bezier(.77,0,.175,1);
     }
-    .door-left {
-      left: 0;
-      border-right: 6px solid #fff;
-    }
-    .door-right {
-      right: 0;
-      border-left: 6px solid #fff;
-    }
-    .door-message {
-      position: absolute;
-      left: 50%; top: 45%;
-      transform: translate(-50%, -50%);
-      font-size: 2rem;
-      color: #b76ba3;
-      font-family: 'Pacifico', cursive;
-      z-index: 2;
-      transition: opacity 0.5s;
-    }
-    .door-open .door-left {
-      transform: translateX(-100vw);
-    }
-    .door-open .door-right {
-      transform: translateX(100vw);
-    }
-    .door-open .door-message {
-      opacity: 0;
-    }
+    .door-left { left: 0; }
+    .door-right { right: 0; }
+    .door-message { font-size: 2rem; color: #007aff; font-family: 'Pacifico', cursive; z-index: 2; transition: opacity 0.5s; }
+    .door-open .door-left { transform: translateX(-100%); }
+    .door-open .door-right { transform: translateX(100%); }
+    .door-open .door-message { opacity: 0; }
   </style>
-  <!-- Google Font for signature -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Door Animation (hidden by default) -->
   <div class="door-animation" id="doorAnimation" style="display:none;">
-    <div class="door-left"></div>
-    <div class="door-right"></div>
+    <div class="door-left"></div> <div class="door-right"></div>
     <div class="door-message">Welcome!</div>
   </div>
-  <!-- Lock Screen -->
   <div class="lock" id="lockScreen">
-    <h1>🔒 Answer this to unlock your birthday wish!</h1>
+    <h1>Enter Passcode</h1>
     <div id="question">What is the nickname I call you?</div>
-    <input type="text" id="unlockAnswer" placeholder="Type your answer..." />
-    <br>
-    <button id="unlockBtn" onclick="unlockBirthday()">Unlock</button>
+    <input type="text" id="unlockAnswer" placeholder="Nickname" />
+    <button id="unlockBtn">Continue</button>
     <div class="lock-error" id="lockError"></div>
     <div class="lock-wait" id="lockWait"></div>
   </div>
-  <!-- Birthday Card, initially hidden -->
   <div class="card" id="birthdayCard" style="display:none;">
     <img src="Yogini.jpg" alt="Yogini's Photo">
     <h1>Happy Birthday, priyeee!</h1>
     <div class="heart">❤️</div>
     <p>
 Soooo😍... आली आम्हाला आठवण तुमच्या वाढदिवसाची🤭🤭... रागावलात होय?🥺🫠...रागावले असाल तर sweet sweet केक खाऊन sweet sweet व्हा 😁✨...आणि पुढे वाचा..
-
+    </p>
+    <p>
 आगे पढने के लिये कृपया #️⃣ दबाये😝
-
+    </p>
+    <p>
 Happpppyy birthday to you the biggest constant of my life dude🔥🥳😍✨🤭... I know.. I know..सकाळपासून खूप त्रास दिला आज🙈🤪...पण वो अपना इश्टाइल हैं ना?😁...birthday के दिन तंग नहीं किया किया तो birthday की memories कैसे होंगी भला?🤧..
 And you're special one for me🤭😍... मग तुझा birthday तर मस्त च असायला हवा😍...आणि कसा विसरणार ना मीI love my teeth so much😛😁... so lemme wish you again😃
-
-Happy birthday to you🤭✨.
-
-Happy birthday to you🔥🥳
-
-Happy birthday to the love of my life😍.
-
+    </p>
+    <p>
+Happy birthday to you🤭✨.<br>
+Happy birthday to you🔥🥳<br>
+Happy birthday to the love of my life😍.<br>
 Happy birthday to you🧡🎂🍰
     </p>
     <p class="signature">— Yours, babycake 😍🤭</p>
@@ -218,63 +198,81 @@ Happy birthday to you🧡🎂🍰
     Made with love just for you!
   </div>
   <script>
-    // Lock logic
-    const correctAnswer = "happybirthday"; // <-- Change to your answer!
-    const questionText = "enter the correct answer";
+    const correctAnswer = "happybirthday";
+    const questionText = "What is the nickname I call you?";
     let attempts = 0;
     const maxAttempts = 3;
     let lockout = false;
     let countdownInterval;
-
+    
     document.getElementById('question').textContent = questionText;
+    const unlockBtn = document.getElementById('unlockBtn');
+    const unlockAnswerInput = document.getElementById('unlockAnswer');
 
     function unlockBirthday() {
       if (lockout) return;
-      const answer = document.getElementById('unlockAnswer').value.trim().toLowerCase();
+      const answer = unlockAnswerInput.value.trim().toLowerCase();
       if (answer === correctAnswer.toLowerCase()) {
         showDoorAnimation();
       } else {
         attempts++;
+        const lockError = document.getElementById('lockError');
         if (attempts >= maxAttempts) {
           lockout = true;
-          document.getElementById('unlockBtn').disabled = true;
-          document.getElementById('lockError').textContent = "";
+          unlockBtn.disabled = true;
+          lockError.textContent = "";
           let countdown = 60;
-          document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+          const lockWait = document.getElementById('lockWait');
+          lockWait.textContent = `Too many attempts. Try again in ${countdown} seconds.`;
           countdownInterval = setInterval(() => {
             countdown--;
-            document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+            lockWait.textContent = `Too many attempts. Try again in ${countdown} seconds.`;
             if (countdown <= 0) {
               clearInterval(countdownInterval);
               attempts = 0;
               lockout = false;
-              document.getElementById('unlockBtn').disabled = false;
-              document.getElementById('lockWait').textContent = "";
-              document.getElementById('lockError').textContent = "";
+              unlockBtn.disabled = false;
+              lockWait.textContent = "";
             }
           }, 1000);
         } else {
-          document.getElementById('lockError').textContent = `Wrong answer! You have ${maxAttempts - attempts} attempt(s) left.`;
+          lockError.textContent = `Incorrect. You have ${maxAttempts - attempts} attempt(s) left.`;
+          // Add a shake animation for wrong answer
+          document.querySelector('.lock').animate([
+              { transform: 'translateX(0px)' },
+              { transform: 'translateX(-10px)' },
+              { transform: 'translateX(10px)' },
+              { transform: 'translateX(-10px)' },
+              { transform: 'translateX(10px)' },
+              { transform: 'translateX(0px)' }
+          ], {
+              duration: 500,
+              easing: 'ease-in-out'
+          });
         }
       }
     }
 
     function showDoorAnimation() {
       document.getElementById('lockScreen').style.display = "none";
-      document.getElementById('doorAnimation').style.display = "flex";
+      const doorAnimation = document.getElementById('doorAnimation');
+      doorAnimation.style.display = "flex";
       setTimeout(() => {
-        document.getElementById('doorAnimation').classList.add('door-open');
+        doorAnimation.classList.add('door-open');
       }, 100);
       setTimeout(() => {
-        document.getElementById('doorAnimation').style.display = "none";
+        doorAnimation.style.display = "none";
         document.getElementById('birthdayCard').style.display = "block";
-        document.querySelector('.footer').style.display = "block";
-      }, 1600);
+        const footer = document.querySelector('.footer');
+        if(footer) footer.style.display = "block";
+      }, 1200);
     }
-
-    document.getElementById('unlockAnswer').addEventListener('keydown', function(e) {
+    
+    unlockBtn.addEventListener('click', unlockBirthday);
+    unlockAnswerInput.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') unlockBirthday();
     });
   </script>
 </body>
-</html>
+      </html>
+      
