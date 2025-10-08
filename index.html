@@ -105,14 +105,6 @@
       margin-top: 1rem;
       font-size: 1rem;
     }
-    /* This img style is now a fallback, the flip-card handles the main image */
-    img {
-      box-shadow: 0 0 20px #b5aed9, 0 0 0 8px #fff0f5;
-      border: 2px solid #b76ba3;
-      border-radius: 16px;
-      width: 500px;
-      margin-bottom: 1rem;
-    }
     .signature {
       font-family: 'Pacifico', cursive;
       color: #b76ba3;
@@ -169,12 +161,12 @@
       50% { opacity: 0; transform: rotate(15deg) scaleY(0.8); }
     }
 
-    /* CSS for the 3D Flip-Card Effect */
+    /* CSS for the 3D Flip-Card Effect - FIXED CROPPING */
     .flip-card {
       background-color: transparent;
       width: 500px;
       max-width: 100%;
-      height: 350px;
+      aspect-ratio: 500 / 350; /* Maintains aspect ratio */
       perspective: 1000px;
       margin: 0 auto 2rem auto;
       cursor: pointer;
@@ -192,16 +184,18 @@
       position: absolute; width: 100%; height: 100%;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      border-radius: 16px;
       overflow: hidden;
     }
     .flip-card-front img {
-      width: 100%; height: 100%; object-fit: cover;
+      width: 100%; height: 100%;
+      object-fit: contain; /* Scales without cropping */
+      border-radius: 16px; /* Ensures image corners are rounded */
     }
     .flip-card-back {
       background-color: #b5aed9;
       color: white;
       transform: rotateY(180deg);
+      border-radius: 16px; /* Match front radius */
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       padding: 20px; box-sizing: border-box;
@@ -296,7 +290,7 @@ Happy birthday to you🧡🎂🍰
         attempts++;
         if (attempts >= maxAttempts) {
           lockout = true;
-          document.getElementById('unlockBtn').disabled = true; // This should be unlockBtn, not a new declaration
+          document.getElementById('unlockBtn').disabled = true;
           document.getElementById('lockError').textContent = "";
           let countdown = 60;
           document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
@@ -306,7 +300,7 @@ Happy birthday to you🧡🎂🍰
             if (countdown <= 0) {
               clearInterval(countdownInterval);
               attempts = 0; lockout = false;
-              document.getElementById('unlockBtn').disabled = false; // This should be unlockBtn
+              document.getElementById('unlockBtn').disabled = false;
               document.getElementById('lockWait').textContent = "";
               document.getElementById('lockError').textContent = "";
             }
@@ -332,7 +326,6 @@ Happy birthday to you🧡🎂🍰
       }, 1600);
     }
 
-    // Bug Fix: Removed the redundant addEventListener for the unlock button
     unlockAnswerInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') unlockBirthday(); });
 
     function startTypingEffect() {
@@ -375,7 +368,7 @@ Happy birthday to you🧡🎂🍰
             element.innerHTML = originalHTML.substring(0, charIndex) + '<span class="typing-cursor"></span>';
           } else {
             clearInterval(typingInterval);
-            element.querySelector('.cursor-span').remove(); // This line had a bug in a previous version, ensuring it's correct now.
+            element.querySelector('.typing-cursor').remove();
             element.classList.add('is-dry');
             currentElementIndex++;
             setTimeout(typeElement, 500); 
