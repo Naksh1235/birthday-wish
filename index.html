@@ -14,7 +14,6 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
-      overflow: hidden; /* Hide scrollbars */
     }
     .card, .lock {
       background: #e6e6fa;
@@ -23,10 +22,10 @@
       box-shadow: 0 0 30px 10px #b5aed9, 0 4px 20px rgba(0,0,0,0.12);
       text-align: center;
       max-width: 800px;
-      margin: 0rem;
+      margin: 1rem 0; /* Added margin for spacing */
       font-family: 'Segoe UI', Arial, sans-serif;
       transition: opacity 0.4s;
-      position: relative; /* Needed for sparkle effect positioning */
+      position: relative;
     }
     h1 {
       font-family: 'Algerian', 'Segoe UI', Arial, sans-serif;
@@ -267,8 +266,8 @@ Happy birthday to you🧡🎂🍰
     let countdownInterval;
     const typingSpeed = 50;
 
-    document.getElementById('question').textContent = questionText;
     const unlockAnswerInput = document.getElementById('unlockAnswer');
+    document.getElementById('question').textContent = questionText;
 
     function unlockBirthday() {
       if (lockout) return;
