@@ -227,7 +227,172 @@
     <div id="question">What is the nickname I call you?</div>
     <input type="text" id="unlockAnswer" placeholder="Type your answer..." />
     <br>
-    <button id="unlockBtn">Unlock</button>
+    <button id="unlockBtn" onclick="unlockBirthday()">Unlock</button>
     <div class="lock-error" id="lockError"></div>
-    <div class="lock-wait" id="lock
+    <div class="lock-wait" id="lockWait"></div>
+  </div>
+
+  <div class="card" id="birthdayCard" style="display:none;">
+    <h1>Happy Birthday, priyeee!</h1>
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-card-front">
+          <img src="Yogini.jpg" alt="Yogini's Photo">
+        </div>
+        <div class="flip-card-back">
+          <h2>A Secret Message</h2>
+          <p>You can write a secret poem or a special message here that is revealed only when the card is flipped!</p>
+        </div>
+      </div>
+    </div>
+    <p style="text-align: center; font-style: italic; color: #888; margin-top: -1rem;">(Click the photo!)</p>
+    <div class="heart">❤️</div>
+    <p class="typing-text">
+Soooo😍... आली आम्हाला आठवण तुमच्या वाढदिवसाची🤭🤭... रागावलात होय?🥺🫠...रागावले असाल तर sweet sweet केक खाऊन sweet sweet व्हा 😁✨...आणि पुढे वाचा..
+
+आगे पढने के लिये कृपया #️⃣ दबाये😝
+
+Happpppyy birthday to you the biggest constant of my life dude🔥🥳😍✨🤭... I know.. I know..सकाळपासून खूप त्रास दिला आज🙈🤪...पण वो अपना इश्टाइल हैं ना?😁...birthday के दिन तंग नहीं किया किया তো birthday की memories कैसे होंगी भला?🤧..
+And you're special one for me🤭😍... मग तुझा birthday तर मस्त च असायला हवा😍...आणि कसा विसरणार ना मीI love my teeth so much😛😁... so lemme wish you again😃
+
+Happy birthday to you🤭✨.
+
+Happy birthday to you🔥🥳
+
+Happy birthday to the love of my life😍.
+
+Happy birthday to you🧡🎂🍰
+    </p>
+    <p class="signature">— Yours, babycake 😍🤭</p>
+    <p class="disclaimer">
+      <small>
+        just a disclaimer: this site is under development, so don't fall for me this much earlier😂🤣
+      </small>
+    </p>
+  </div>
+
+  <div class="footer">
+    Made with love just for you!
+  </div>
+
+  <script>
+    const correctAnswer = "babycake"; 
+    const questionText = "What is the nickname I call you?";
+    let attempts = 0;
+    const maxAttempts = 3;
+    let lockout = false;
+    let countdownInterval;
+    const typingSpeed = 50;
+
+    document.getElementById('question').textContent = questionText;
+    const unlockAnswerInput = document.getElementById('unlockAnswer');
+
+    function unlockBirthday() {
+      if (lockout) return;
+      const answer = unlockAnswerInput.value.trim().toLowerCase();
+      if (answer === correctAnswer.toLowerCase()) {
+        showDoorAnimation();
+      } else {
+        attempts++;
+        if (attempts >= maxAttempts) {
+          lockout = true;
+          document.getElementById('unlockBtn').disabled = true; // This should be unlockBtn, not a new declaration
+          document.getElementById('lockError').textContent = "";
+          let countdown = 60;
+          document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+          countdownInterval = setInterval(() => {
+            countdown--;
+            document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+            if (countdown <= 0) {
+              clearInterval(countdownInterval);
+              attempts = 0; lockout = false;
+              document.getElementById('unlockBtn').disabled = false; // This should be unlockBtn
+              document.getElementById('lockWait').textContent = "";
+              document.getElementById('lockError').textContent = "";
+            }
+          }, 1000);
+        } else {
+          document.getElementById('lockError').textContent = `Wrong answer! You have ${maxAttempts - attempts} attempt(s) left.`;
+        }
+      }
+    }
+
+    function showDoorAnimation() {
+      document.getElementById('lockScreen').style.display = "none";
+      const doorAnimation = document.getElementById('doorAnimation');
+      doorAnimation.style.display = "flex";
+      setTimeout(() => {
+        doorAnimation.classList.add('door-open');
+      }, 100);
+      setTimeout(() => {
+        doorAnimation.style.display = "none";
+        document.getElementById('birthdayCard').style.display = "block";
+        document.querySelector('.footer').style.display = "block";
+        startTypingEffect();
+      }, 1600);
+    }
+
+    // Bug Fix: Removed the redundant addEventListener for the unlock button
+    unlockAnswerInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') unlockBirthday(); });
+
+    function startTypingEffect() {
+      const elementsToType = document.querySelectorAll('.typing-text');
+      let currentElementIndex = 0;
+
+      const otherElements = document.querySelectorAll('.card .signature, .card .disclaimer, .typing-text');
+      otherElements.forEach(el => el.style.opacity = '0');
       
+      function typeElement() {
+        if (currentElementIndex >= elementsToType.length) {
+          const signatureEl = document.querySelector('.card .signature');
+          const disclaimerEl = document.querySelector('.card .disclaimer');
+          signatureEl.style.transition = 'opacity 1s';
+          disclaimerEl.style.transition = 'opacity 1s 0.5s';
+          signatureEl.style.opacity = '1';
+          disclaimerEl.style.opacity = '1';
+          return;
+        }
+
+        const element = elementsToType[currentElementIndex];
+        const originalHTML = element.innerHTML;
+        element.innerHTML = '';
+        element.style.opacity = '1';
+
+        const cursor = document.createElement('span');
+        cursor.className = 'typing-cursor';
+        element.appendChild(cursor);
+
+        let charIndex = 0;
+        const typingInterval = setInterval(() => {
+          if (charIndex < originalHTML.length) {
+            let nextCharSegment = originalHTML.substring(charIndex);
+            if (nextCharSegment.startsWith('<')) {
+              const tagEndIndex = nextCharSegment.indexOf('>') + 1;
+              charIndex += tagEndIndex;
+            } else {
+              charIndex++;
+            }
+            element.innerHTML = originalHTML.substring(0, charIndex) + '<span class="typing-cursor"></span>';
+          } else {
+            clearInterval(typingInterval);
+            element.querySelector('.cursor-span').remove(); // This line had a bug in a previous version, ensuring it's correct now.
+            element.classList.add('is-dry');
+            currentElementIndex++;
+            setTimeout(typeElement, 500); 
+          }
+        }, typingSpeed);
+      }
+      typeElement();
+    }
+
+    // --- 3D FLIP-CARD FUNCTIONALITY ---
+    const flipCard = document.querySelector('.flip-card');
+    if (flipCard) {
+      flipCard.addEventListener('click', function() {
+        flipCard.classList.toggle('is-flipped');
+      });
+    }
+  </script>
+</body>
+      </html>
+  
