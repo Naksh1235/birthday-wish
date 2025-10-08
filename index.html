@@ -14,6 +14,7 @@
       justify-content: center;
       min-height: 100vh;
       margin: 0;
+      overflow: hidden; /* Hide scrollbars */
     }
     .card, .lock {
       background: #e6e6fa;
@@ -25,6 +26,7 @@
       margin: 0rem;
       font-family: 'Segoe UI', Arial, sans-serif;
       transition: opacity 0.4s;
+      position: relative; /* Needed for sparkle effect positioning */
     }
     h1 {
       font-family: 'Algerian', 'Segoe UI', Arial, sans-serif;
@@ -34,108 +36,52 @@
       letter-spacing: 2px;
     }
     .heart {
-      color: #ea4c89;
-      font-size: 2rem;
-      animation: beat 1s infinite;
-      transition: animation 0.3s;
-    }
-    .heart:hover {
-      animation: beat 0.4s infinite;
-      cursor: pointer;
+      color: #ea4c89; font-size: 2rem; animation: beat 1s infinite;
     }
     @keyframes beat {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.2); }
     }
     .footer {
-      margin-top: 2rem;
-      font-size: 1.3rem;
-      color: #858;
+      margin-top: 2rem; font-size: 1.3rem; color: #858;
     }
     p {
-      text-align: left;
-      white-space: pre-line;
-      font-size: 1.15rem;
-      margin-bottom: 1.2rem;
+      text-align: left; white-space: pre-line; font-size: 1.15rem; margin-bottom: 1.2rem;
     }
     .disclaimer {
-      text-align: right;
-      color: #888;
-      font-size: 0.97rem;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      margin-top: 1.25rem;
-      margin-bottom: 0;
-      font-style: italic;
-      opacity: 0.85;
-    }
-    .disclaimer small {
-      font-size: 0.95em;
+      text-align: right; color: #888; font-size: 0.97rem; margin-top: 1.25rem;
+      font-style: italic; opacity: 0.85;
     }
     .lock input[type="text"] {
-      font-size: 1.2rem;
-      padding: 0.5rem;
-      border: 1px solid #b76ba3;
-      border-radius: 10px;
-      outline: none;
-      margin-bottom: 1rem;
-      margin-top: 1rem;
+      font-size: 1.2rem; padding: 0.5rem; border: 1px solid #b76ba3;
+      border-radius: 10px; outline: none; margin-bottom: 1rem; margin-top: 1rem;
     }
     .lock button {
-      font-size: 1.2rem;
-      padding: 0.5rem 1.5rem;
-      border-radius: 10px;
-      border: none;
-      background: #b76ba3;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.2s;
+      font-size: 1.2rem; padding: 0.5rem 1.5rem; border-radius: 10px;
+      border: none; background: #b76ba3; color: #fff;
+      cursor: pointer; transition: background 0.2s;
     }
-    .lock button:hover {
-      background: #ea4c89;
-    }
-    .lock-error {
-      color: #b76ba3;
-      margin-top: 1rem;
-      font-size: 1rem;
-      font-weight: bold;
-    }
-    .lock-wait {
-      color: #b76ba3;
-      font-weight: bold;
-      margin-top: 1rem;
-      font-size: 1rem;
+    .lock button:hover { background: #ea4c89; }
+    .lock-error, .lock-wait {
+      color: #b76ba3; margin-top: 1rem; font-size: 1rem; font-weight: bold;
     }
     .signature {
-      font-family: 'Pacifico', cursive;
-      color: #b76ba3;
-      font-size: 1.4rem;
-      text-align: right;
+      font-family: 'Pacifico', cursive; color: #b76ba3; font-size: 1.4rem; text-align: right;
     }
     /* Door animation styles */
     .door-animation {
-      position: fixed;
-      left: 0; top: 0; right: 0; bottom: 0;
-      width: 100vw; height: 100vh;
-      z-index: 999;
-      background: #e6e6fa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
+      position: fixed; left: 0; top: 0; right: 0; bottom: 0; width: 100vw; height: 100vh;
+      z-index: 999; background: #e6e6fa; display: flex; align-items: center;
+      justify-content: center; overflow: hidden;
     }
     .door-left, .door-right {
-      width: 40vw;
-      height: 100vh;
-      background: #b5aed9;
-      position: absolute;
-      top: 0;
+      width: 50vw; height: 100vh; background: #b5aed9; position: absolute; top: 0;
       transition: transform 1.2s cubic-bezier(.77,0,.175,1);
     }
     .door-left { left: 0; border-right: 6px solid #fff; }
     .door-right { right: 0; border-left: 6px solid #fff; }
     .door-message {
-      position: absolute; left: 50%; top: 45%;
-      transform: translate(-50%, -50%);
+      position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%);
       font-size: 2rem; color: #b76ba3; font-family: 'Pacifico', cursive;
       z-index: 2; transition: opacity 0.5s;
     }
@@ -143,76 +89,107 @@
     .door-open .door-right { transform: translateX(100vw); }
     .door-open .door-message { opacity: 0; }
     
-    /* CSS for the "Ink & Nib" typing animation */
+    /* "Ink & Nib" typing animation */
     .typing-text {
-      position: relative; text-align: left;
-      color: #333; 
-      transition: color 1.5s ease-in-out;
+      position: relative; text-align: left; color: #333; transition: color 1.5s ease-in-out;
     }
     .typing-text.is-dry { color: #000; }
     .typing-cursor {
       display: inline-block; width: 4px; height: 1.4rem;
       background-color: #333; margin-left: 3px; border-radius: 4px;
-      transform: rotate(15deg);
-      animation: nib-blink 0.8s infinite;
+      transform: rotate(15deg); animation: nib-blink 0.8s infinite;
     }
     @keyframes nib-blink {
       0%, 100% { opacity: 1; transform: rotate(15deg) scaleY(1); }
       50% { opacity: 0; transform: rotate(15deg) scaleY(0.8); }
     }
 
-    /* CSS for the 3D Flip-Card Effect - FIXED CROPPING */
+    /* 3D Flip-Card Effect */
     .flip-card {
-      background-color: transparent;
-      width: 500px;
-      max-width: 100%;
-      aspect-ratio: 500 / 350; /* Maintains aspect ratio */
-      perspective: 1000px;
-      margin: 0 auto 2rem auto;
-      cursor: pointer;
+      background-color: transparent; width: 500px; max-width: 100%;
+      aspect-ratio: 500 / 350; perspective: 1000px;
+      margin: 0 auto 2rem auto; cursor: pointer;
     }
     .flip-card-inner {
-      position: relative; width: 100%; height: 100%;
-      text-align: center;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
+      position: relative; width: 100%; height: 100%; text-align: center;
+      transition: transform 0.8s; transform-style: preserve-3d;
     }
-    .flip-card.is-flipped .flip-card-inner {
-      transform: rotateY(180deg);
-    }
+    .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
     .flip-card-front, .flip-card-back {
       position: absolute; width: 100%; height: 100%;
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden; backface-visibility: hidden;
       overflow: hidden;
     }
     .flip-card-front img {
-      width: 100%; height: 100%;
-      object-fit: contain; /* Scales without cropping */
-      border-radius: 16px; /* Ensures image corners are rounded */
+      width: 100%; height: 100%; object-fit: contain; border-radius: 16px;
     }
     .flip-card-back {
-      background-color: #b5aed9;
-      color: white;
-      transform: rotateY(180deg);
-      border-radius: 16px; /* Match front radius */
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 20px; box-sizing: border-box;
+      background-color: #b5aed9; color: white; transform: rotateY(180deg);
+      border-radius: 16px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 20px;
+      box-sizing: border-box;
     }
-    .flip-card-back h2 {
-      font-family: 'Pacifico', cursive; font-size: 2rem; margin: 0; color: #fff;
+    .flip-card-back h2 { font-family: 'Pacifico', cursive; font-size: 2rem; margin: 0; color: #fff; }
+    .flip-card-back p { font-size: 1.1rem; text-align: center; color: #fff; }
+
+    /* Gallery Button */
+    #galleryBtn {
+      font-family: 'Pacifico', cursive; font-size: 1.3rem; font-weight: 500;
+      padding: 0.8rem 2rem; border-radius: 30px; border: 2px solid #b76ba3;
+      background: linear-gradient(45deg, #b76ba3, #ea4c89); color: #fff;
+      cursor: pointer; margin-top: 2.5rem; margin-bottom: 2rem;
+      transition: all 0.4s ease; box-shadow: 0 4px 15px rgba(183, 107, 163, 0.4);
     }
-    .flip-card-back p {
-      font-size: 1.1rem; text-align: center; color: #fff;
+    #galleryBtn:hover {
+      background: linear-gradient(45deg, #ea4c89, #b76ba3);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(183, 107, 163, 0.6);
+    }
+    /* Gallery Modal */
+    .modal {
+      display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+      width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85);
+      backdrop-filter: blur(5px); animation: fadeIn 0.5s;
+    }
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    .modal-content {
+      margin: auto; padding: 20px; width: 80%; max-width: 700px;
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    }
+    #main-gallery-image { width: 100%; border-radius: 16px; border: 2px solid #fff; }
+    .close-btn {
+      position: absolute; top: 15px; right: 35px; color: #f1f1f1;
+      font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer;
+    }
+    .thumbnail-bar { margin-top: 15px; text-align: center; }
+    .thumbnail {
+      width: 100px; height: 100px; object-fit: cover; border-radius: 8px;
+      margin: 5px; cursor: pointer; opacity: 0.7; transition: all 0.3s;
+    }
+    .thumbnail:hover, .thumbnail.active { opacity: 1; border: 2px solid #fff; transform: scale(1.05); }
+
+    /* Sparkle Trail Effect */
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: #ea4c89;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fadeOut 0.8s forwards;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0);
+      }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="door-animation" id="doorAnimation" style="display:none;">
-    <div class="door-left"></div>
-    <div class="door-right"></div>
+    <div class="door-left"></div> <div class="door-right"></div>
     <div class="door-message">Welcome!</div>
   </div>
 
@@ -235,7 +212,7 @@
         </div>
         <div class="flip-card-back">
           <h2>A Secret Message</h2>
-          <p>You can write a secret poem or a special message here that is revealed only when the card is flipped!</p>
+          <p>You can write a secret poem here!</p>
         </div>
       </div>
     </div>
@@ -257,21 +234,28 @@ Happy birthday to the love of my life😍.
 
 Happy birthday to you🧡🎂🍰
     </p>
-        <p class="signature">— Yours, babycake 😍🤭</p>
-
+    <p class="signature">— Yours, babycake 😍🤭</p>
     <button id="galleryBtn" style="display:none;">View Our Memories</button>
-
     <p class="disclaimer">
       <small>
         just a disclaimer: this site is under development, so don't fall for me this much earlier😂🤣
       </small>
     </p>
-   
-  </p>
   </div>
 
-  <div class="footer">
-    Made with love just for you!
+  <div class="footer" style="display:none;">Made with love just for you!</div>
+
+  <div id="gallery-modal" class="modal">
+    <span class="close-btn">&times;</span>
+    <div class="modal-content">
+      <img id="main-gallery-image" src="photo1.jpg" alt="Gallery Photo">
+      <div class="thumbnail-bar">
+        <img src="photo1.jpg" class="thumbnail active" alt="Thumbnail 1">
+        <img src="photo2.jpg" class="thumbnail" alt="Thumbnail 2">
+        <img src="photo3.jpg" class="thumbnail" alt="Thumbnail 3">
+        <img src="photo4.jpg" class="thumbnail" alt="Thumbnail 4">
+      </div>
+    </div>
   </div>
 
   <script>
@@ -298,16 +282,15 @@ Happy birthday to you🧡🎂🍰
           document.getElementById('unlockBtn').disabled = true;
           document.getElementById('lockError').textContent = "";
           let countdown = 60;
-          document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+          document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds.`;
           countdownInterval = setInterval(() => {
             countdown--;
-            document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds to try again.`;
+            document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds.`;
             if (countdown <= 0) {
               clearInterval(countdownInterval);
               attempts = 0; lockout = false;
               document.getElementById('unlockBtn').disabled = false;
               document.getElementById('lockWait').textContent = "";
-              document.getElementById('lockError').textContent = "";
             }
           }, 1000);
         } else {
@@ -324,10 +307,14 @@ Happy birthday to you🧡🎂🍰
         doorAnimation.classList.add('door-open');
       }, 100);
       setTimeout(() => {
+        const birthdayCard = document.getElementById('birthdayCard');
         doorAnimation.style.display = "none";
-        document.getElementById('birthdayCard').style.display = "block";
+        birthdayCard.style.display = "block";
         document.querySelector('.footer').style.display = "block";
         startTypingEffect();
+
+        // Add the sparkle trail listener
+        birthdayCard.addEventListener('mousemove', createSparkle);
       }, 1600);
     }
 
@@ -336,26 +323,27 @@ Happy birthday to you🧡🎂🍰
     function startTypingEffect() {
       const elementsToType = document.querySelectorAll('.typing-text');
       let currentElementIndex = 0;
-
-      const otherElements = document.querySelectorAll('.card .signature, .card .disclaimer, .typing-text');
+      const otherElements = document.querySelectorAll('.card .signature, .card .disclaimer, .typing-text, #galleryBtn');
       otherElements.forEach(el => el.style.opacity = '0');
       
       function typeElement() {
         if (currentElementIndex >= elementsToType.length) {
           const signatureEl = document.querySelector('.card .signature');
           const disclaimerEl = document.querySelector('.card .disclaimer');
+          const galleryBtnEl = document.getElementById('galleryBtn');
           signatureEl.style.transition = 'opacity 1s';
           disclaimerEl.style.transition = 'opacity 1s 0.5s';
+          galleryBtnEl.style.transition = 'opacity 1s 1s';
           signatureEl.style.opacity = '1';
           disclaimerEl.style.opacity = '1';
+          galleryBtnEl.style.display = 'inline-block';
+          galleryBtnEl.style.opacity = '1';
           return;
         }
-
         const element = elementsToType[currentElementIndex];
         const originalHTML = element.innerHTML;
         element.innerHTML = '';
         element.style.opacity = '1';
-
         const cursor = document.createElement('span');
         cursor.className = 'typing-cursor';
         element.appendChild(cursor);
@@ -367,9 +355,7 @@ Happy birthday to you🧡🎂🍰
             if (nextCharSegment.startsWith('<')) {
               const tagEndIndex = nextCharSegment.indexOf('>') + 1;
               charIndex += tagEndIndex;
-            } else {
-              charIndex++;
-            }
+            } else { charIndex++; }
             element.innerHTML = originalHTML.substring(0, charIndex) + '<span class="typing-cursor"></span>';
           } else {
             clearInterval(typingInterval);
@@ -382,15 +368,61 @@ Happy birthday to you🧡🎂🍰
       }
       typeElement();
     }
-
-    // --- 3D FLIP-CARD FUNCTIONALITY ---
+    
+    // 3D FLIP-CARD FUNCTIONALITY
     const flipCard = document.querySelector('.flip-card');
     if (flipCard) {
       flipCard.addEventListener('click', function() {
         flipCard.classList.toggle('is-flipped');
       });
     }
+
+    // GALLERY FUNCTIONALITY
+    const galleryBtn = document.getElementById('galleryBtn');
+    const modal = document.getElementById('gallery-modal');
+    const closeBtn = document.querySelector('.close-btn');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const mainImage = document.getElementById('main-gallery-image');
+
+    if (galleryBtn) { galleryBtn.onclick = () => { modal.style.display = "block"; }; }
+    if (closeBtn) { closeBtn.onclick = () => { modal.style.display = "none"; }; }
+    window.onclick = (event) => { if (event.target == modal) { modal.style.display = "none"; } };
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', function() {
+        mainImage.src = this.src;
+        thumbnails.forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    // SPARKLE TRAIL FUNCTIONALITY
+    function createSparkle(e) {
+      const card = document.getElementById('birthdayCard');
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+
+      // Calculate position relative to the card
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      sparkle.style.left = `${x}px`;
+      sparkle.style.top = `${y}px`;
+      
+      // Randomize sparkle properties
+      const size = Math.random() * 8 + 4;
+      sparkle.style.width = `${size}px`;
+      sparkle.style.height = `${size}px`;
+      const colors = ['#ea4c89', '#b76ba3', '#f7cac9', '#fff'];
+      sparkle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      card.appendChild(sparkle);
+      
+      setTimeout(() => {
+        sparkle.remove();
+      }, 800);
+    }
   </script>
 </body>
-      </html>
+  </html>
   
