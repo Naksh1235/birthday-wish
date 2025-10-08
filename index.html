@@ -15,14 +15,14 @@
       min-height: 100vh;
       margin: 0;
     }
-    .card {
+    .card, .lock {
       background: #e6e6fa;
       padding: 4rem 3rem;
       border-radius: 24px;
       box-shadow: 0 0 30px 10px #b5aed9, 0 4px 20px rgba(0,0,0,0.12);
       text-align: center;
       max-width: 800px;
-      margin: 1rem 0;
+      margin: 1rem 0; /* Added margin for spacing */
       font-family: 'Segoe UI', Arial, sans-serif;
       transition: opacity 0.4s;
       position: relative;
@@ -50,6 +50,19 @@
     .disclaimer {
       text-align: right; color: #888; font-size: 0.97rem; margin-top: 1.25rem;
       font-style: italic; opacity: 0.85;
+    }
+    .lock input[type="text"] {
+      font-size: 1.2rem; padding: 0.5rem; border: 1px solid #b76ba3;
+      border-radius: 10px; outline: none; margin-bottom: 1rem; margin-top: 1rem;
+    }
+    .lock button {
+      font-size: 1.2rem; padding: 0.5rem 1.5rem; border-radius: 10px;
+      border: none; background: #b76ba3; color: #fff;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .lock button:hover { background: #ea4c89; }
+    .lock-error, .lock-wait {
+      color: #b76ba3; margin-top: 1rem; font-size: 1rem; font-weight: bold;
     }
     .signature {
       font-family: 'Pacifico', cursive; color: #b76ba3; font-size: 1.4rem; text-align: right;
@@ -116,9 +129,7 @@
       box-sizing: border-box;
     }
     .flip-card-back h2 { font-family: 'Pacifico', cursive; font-size: 2rem; margin: 0; color: #fff; }
-    .flip-card-back p {
-      font-family: 'Pacifico', cursive; font-size: 1.1rem; text-align: center; color: #fff;
-    }
+    .flip-card-back p { font-family: 'Pacifico', cursive; font-size: 1.1rem; text-align: center; color: #fff; }
 
     /* Gallery Button */
     #galleryBtn {
@@ -158,53 +169,19 @@
 
     /* Sparkle Trail Effect */
     .sparkle {
-      position: absolute; width: 8px; height: 8px;
-      background-color: #ea4c89; border-radius: 50%;
-      pointer-events: none; animation: fadeOut 0.8s forwards;
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: #ea4c89;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: fadeOut 0.8s forwards;
     }
-    @keyframes fadeOut { to { opacity: 0; transform: scale(0); } }
-    
-    /* CSS for the "Connect Our Stars" Lock */
-    .lock-screen {
-      width: 100vw; height: 100vh; position: fixed; top: 0; left: 0;
-      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      color: #fff; z-index: 100;
-    }
-    .lock-screen h1 { color: #fff; }
-    .lock-instructions { color: #a7a7a7; font-size: 1rem; text-align: center; }
-    .star-container {
-      width: 300px; height: 300px; position: relative; margin: 1rem 0;
-      z-index: 2; /* Bug Fix: Ensure stars are on top */
-    }
-    .star {
-      width: 20px; height: 20px; background-color: #fff; border-radius: 50%;
-      position: absolute; transform: translate(-50%, -50%);
-      box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #0077ff;
-      cursor: pointer; transition: all 0.3s ease;
-    }
-    .star:hover { transform: translate(-50%, -50%) scale(1.2); }
-    .star.clicked {
-      background-color: #ffdd00;
-      box-shadow: 0 0 15px #ffdd00, 0 0 25px #ffdd00, 0 0 35px #ff8800;
-    }
-    .line-canvas {
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
-      z-index: 1; /* Bug Fix: Place line canvas below stars */
-    }
-    #reset-stars {
-      background: transparent; border: 1px solid #fff; color: #fff;
-      padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-top: 1rem;
-    }
-    .star-container.correct .star {
-      background-color: #00ff7f; box-shadow: 0 0 15px #00ff7f, 0 0 25px #00ff7f;
-    }
-    .star-container.incorrect { animation: shake 0.5s; }
-    .star-container.incorrect .star.clicked {
-      background-color: #ff3b30; box-shadow: 0 0 15px #ff3b30, 0 0 25px #ff3b30;
-    }
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(0);
+      }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -215,18 +192,14 @@
     <div class="door-message">Welcome!</div>
   </div>
 
-  <div class="lock-screen" id="lockScreen">
-    <h1>Connect Our Stars</h1>
-    <p class="lock-instructions">Click the stars in the correct order to reveal a secret shape.</p>
-    <svg class="line-canvas"></svg>
-    <div class="star-container">
-      <div class="star" id="star-1" style="top: 20%; left: 50%;"></div>
-      <div class="star" id="star-2" style="top: 40%; left: 30%;"></div>
-      <div class="star" id="star-3" style="top: 65%; left: 40%;"></div>
-      <div class="star" id="star-4" style="top: 65%; left: 60%;"></div>
-      <div class="star" id="star-5" style="top: 40%; left: 70%;"></div>
-    </div>
-    <button id="reset-stars">Reset</button>
+  <div class="lock" id="lockScreen">
+    <h1>🔒 Something special is waiting inside!</h1>
+    <div id="question">What is the nickname I call you?</div>
+    <input type="text" id="unlockAnswer" placeholder="Type your answer..." />
+    <br>
+    <button id="unlockBtn" onclick="unlockBirthday()">Unlock</button>
+    <div class="lock-error" id="lockError"></div>
+    <div class="lock-wait" id="lockWait"></div>
   </div>
 
   <div class="card" id="birthdayCard" style="display:none;">
@@ -238,7 +211,7 @@
         </div>
         <div class="flip-card-back">
           <h2>A Secret Message</h2>
-          <p>You can write a secret poem here!</p>
+          <p>“So you flipped the card, huh? Guess curiosity suits you... just like that smile does. If only you knew what else I’ve been wanting to unwrap tonight.”</p>
         </div>
       </div>
     </div>
@@ -285,86 +258,67 @@ Happy birthday to you🧡🎂🍰
   </div>
 
   <script>
-    // --- "CONNECT OUR STARS" LOCK LOGIC ---
-    const correctPattern = ['star-1', 'star-2', 'star-3', 'star-4', 'star-5', 'star-1'];
-    let userPattern = [];
-    
-    const starContainer = document.querySelector('.star-container');
-    const lineCanvas = document.querySelector('.line-canvas');
-    const stars = document.querySelectorAll('.star');
-    const resetBtn = document.getElementById('reset-stars');
+    const correctAnswer = "babycake"; 
+    const questionText = "What is the nickname I call you?";
+    let attempts = 0;
+    const maxAttempts = 3;
+    let lockout = false;
+    let countdownInterval;
+    const typingSpeed = 50;
 
-    starContainer.addEventListener('click', handleStarClick);
-    resetBtn.addEventListener('click', resetStars);
+    const unlockAnswerInput = document.getElementById('unlockAnswer');
+    document.getElementById('question').textContent = questionText;
 
-    function handleStarClick(e) {
-      const clickedStar = e.target;
-      if (!clickedStar.classList.contains('star') || clickedStar.classList.contains('clicked')) {
-        return;
-      }
-      clickedStar.classList.add('clicked');
-      userPattern.push(clickedStar.id);
-
-      if (userPattern.length > 1) {
-        const prevStarId = userPattern[userPattern.length - 2];
-        const prevStar = document.getElementById(prevStarId);
-        drawLine(prevStar, clickedStar);
-      }
-      if (userPattern.length === correctPattern.length) {
-        checkPattern();
-      }
-    }
-
-    function checkPattern() {
-      const isCorrect = JSON.stringify(userPattern) === JSON.stringify(correctPattern);
-      if (isCorrect) {
-        starContainer.classList.add('correct');
-        setTimeout(showDoorAnimation, 800);
+    function unlockBirthday() {
+      if (lockout) return;
+      const answer = unlockAnswerInput.value.trim().toLowerCase();
+      if (answer === correctAnswer.toLowerCase()) {
+        showDoorAnimation();
       } else {
-        starContainer.classList.add('incorrect');
-        setTimeout(resetStars, 1000);
+        attempts++;
+        if (attempts >= maxAttempts) {
+          lockout = true;
+          document.getElementById('unlockBtn').disabled = true;
+          document.getElementById('lockError').textContent = "";
+          let countdown = 60;
+          document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds.`;
+          countdownInterval = setInterval(() => {
+            countdown--;
+            document.getElementById('lockWait').textContent = `Too many wrong answers! Please wait ${countdown} seconds.`;
+            if (countdown <= 0) {
+              clearInterval(countdownInterval);
+              attempts = 0; lockout = false;
+              document.getElementById('unlockBtn').disabled = false;
+              document.getElementById('lockWait').textContent = "";
+            }
+          }, 1000);
+        } else {
+          document.getElementById('lockError').textContent = `Wrong answer! You have ${maxAttempts - attempts} attempt(s) left.`;
+        }
       }
     }
 
-    function resetStars() {
-      userPattern = [];
-      stars.forEach(star => star.classList.remove('clicked'));
-      lineCanvas.innerHTML = '';
-      starContainer.classList.remove('incorrect', 'correct');
-    }
-
-    function drawLine(star1, star2) {
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      const lockScreenRect = document.getElementById('lockScreen').getBoundingClientRect();
-      const star1Rect = star1.getBoundingClientRect();
-      const star2Rect = star2.getBoundingClientRect();
-
-      line.setAttribute('x1', star1Rect.left - lockScreenRect.left + (star1Rect.width / 2));
-      line.setAttribute('y1', star1Rect.top - lockScreenRect.top + (star1Rect.height / 2));
-      line.setAttribute('x2', star2Rect.left - lockScreenRect.left + (star2Rect.width / 2));
-      line.setAttribute('y2', star2Rect.top - lockScreenRect.top + (star2Rect.height / 2));
-      line.setAttribute('stroke', '#ffdd00');
-      line.setAttribute('stroke-width', '2');
-      
-      lineCanvas.appendChild(line);
-    }
-
-    // --- OTHER WEBSITE FUNCTIONS ---
     function showDoorAnimation() {
       document.getElementById('lockScreen').style.display = "none";
       const doorAnimation = document.getElementById('doorAnimation');
       doorAnimation.style.display = "flex";
-      setTimeout(() => { doorAnimation.classList.add('door-open'); }, 100);
+      setTimeout(() => {
+        doorAnimation.classList.add('door-open');
+      }, 100);
       setTimeout(() => {
         const birthdayCard = document.getElementById('birthdayCard');
         doorAnimation.style.display = "none";
         birthdayCard.style.display = "block";
         document.querySelector('.footer').style.display = "block";
         startTypingEffect();
+
+        // Add the sparkle trail listener
         birthdayCard.addEventListener('mousemove', createSparkle);
       }, 1600);
     }
-    
+
+    unlockAnswerInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') unlockBirthday(); });
+
     function startTypingEffect() {
       const elementsToType = document.querySelectorAll('.typing-text');
       let currentElementIndex = 0;
@@ -409,7 +363,7 @@ Happy birthday to you🧡🎂🍰
             currentElementIndex++;
             setTimeout(typeElement, 500); 
           }
-        }, 50);
+        }, typingSpeed);
       }
       typeElement();
     }
@@ -446,13 +400,15 @@ Happy birthday to you🧡🎂🍰
       const sparkle = document.createElement('div');
       sparkle.className = 'sparkle';
 
+      // Calculate position relative to the card
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
       sparkle.style.left = `${x}px`;
-      sparkle.style.top = `${y}py`; // Typo fixed from previous version
+      sparkle.style.top = `${y}px`;
       
+      // Randomize sparkle properties
       const size = Math.random() * 8 + 4;
       sparkle.style.width = `${size}px`;
       sparkle.style.height = `${size}px`;
@@ -467,5 +423,6 @@ Happy birthday to you🧡🎂🍰
     }
   </script>
 </body>
-      </html>
+  </html>
+
   
